@@ -6,6 +6,7 @@ import (
 
 func main() {
 	fmt.Println(GetSubsetSums(15, 5, []uint{1, 2, 3, 3, 9}))
+	fmt.Println(GetCribbageCardFromString("8S"))
 }
 
 //Pass a sorted slice as set
