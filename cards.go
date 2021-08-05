@@ -14,14 +14,22 @@ type PlayingCard struct {
 	Rank          string
 	LongRank      string
 	UnicodeSymbol string
-}
-
-type PlayingCardDeck struct {
+	RankIndex     uint
 }
 
 type CribbageCard struct {
 	PlayingCard
 	Value uint
+}
+
+type PlayingCardCollection []PlayingCard
+
+func (c PlayingCardCollection) Swap(i int, j int) {
+	c[i], c[j] = c[j], c[i]
+}
+
+func (c PlayingCardCollection) Less(i int, j int) bool {
+	return c[i].RankIndex < c[j].RankIndex
 }
 
 func IsValidPlayingCardString(cardString string) bool {
@@ -67,6 +75,8 @@ func GetPlayingCardFromString(cardString string) (*PlayingCard, error) {
 		suitMask = 0xd0
 	}
 
+	rankIndex, _ := strconv.ParseUint(rank, 10, 32)
+
 	switch rank {
 	case "J":
 		longRank = "Jack"
@@ -82,7 +92,6 @@ func GetPlayingCardFromString(cardString string) (*PlayingCard, error) {
 		rankMask = 0x0e
 	default:
 		longRank = rank
-		rankIndex, _ := strconv.ParseUint(rank, 10, 32)
 		rankMask = byte(rankIndex)
 	}
 
